@@ -118,8 +118,8 @@
 
     /* Stage 1: Envelope */
     .envelope {
-      width: min(85vw, 360px);
-      height: min(57vw, 240px);
+      width: min(78vw, 320px);
+      height: min(52vw, 215px);
     }
     .seal { width: 60px; height: 60px; font-size: 26px; border-width: 2px; }
     .letter-title { font-size: 20px; }
@@ -135,26 +135,20 @@
 
     /* Stage 3: Cake — scale down */
     .cake-instructions {
-      top: max(72px, calc(env(safe-area-inset-top) + 56px));
-      font-size: 24px;
+      font-size: clamp(18px, 4.5vw, 24px);
       padding: 0 16px;
       width: 100%;
     }
     .cake-instructions .micsub { font-size: 9px; }
     .cake {
-      width: min(86vw, 360px);
-      height: min(70vw, 290px);
-      margin-top: 30px;
+      width: min(76vw, 300px);
+      height: min(60vw, 240px);
     }
-    .tier { box-shadow: 5px 5px 0 var(--ink); border-width: 2px; }
-    .tier-bottom { bottom: 18px; height: 100px; }
-    .tier-middle { bottom: 116px; height: 78px; }
-    .tier-top { bottom: 192px; height: 64px; }
-    .candles { top: 152px; }
-    .candle { width: 11px; height: 54px; border-width: 2px; }
-    .flame { width: 14px; height: 22px; top: -28px; }
-    .mic-meter { width: min(80vw, 280px); bottom: 60px; }
-    .skip-blow { bottom: 24px; font-size: 9px; }
+    .tier { box-shadow: 4px 4px 0 var(--ink); border-width: 2px; }
+    .candle { border-width: 2px; }
+    .flame { width: 14px; height: 22px; top: -24px; }
+    .mic-meter { width: min(72vw, 240px); }
+    .skip-blow { font-size: 9px; }
 
     /* Stage 4: Wish */
     .wish-stage { padding: 24px 16px; }
@@ -171,28 +165,22 @@
 
   /* Very small phones */
   @media (max-width: 380px) {
-    .envelope { width: 88vw; height: 58vw; }
+    .envelope { width: 80vw; height: 53vw; }
     .seal { width: 52px; height: 52px; font-size: 22px; }
     .bigtype .row.r1 { font-size: 50px; }
     .bigtype .row.r2 { font-size: 60px; }
     .bigtype .row.r3 { font-size: 38px; }
-    .cake { width: 88vw; height: 72vw; }
+    .cake { width: 78vw; height: 64vw; }
   }
 
   /* Landscape on phones — keep cake compact */
   @media (max-height: 520px) and (orientation: landscape) {
-    .cake-instructions { top: 12px; font-size: 18px; }
-    .cake { margin-top: 0; height: min(60vh, 240px); width: min(40vw, 320px); }
-    .tier-bottom { height: 80px; bottom: 14px; }
-    .tier-middle { height: 60px; bottom: 92px; }
-    .tier-top { height: 50px; bottom: 150px; }
-    .candles { top: 116px; }
-    .candle { height: 44px; }
-    .mic-meter { bottom: 36px; }
-    .skip-blow { bottom: 12px; }
-    .bigtype .row.r1 { font-size: clamp(40px, 9vw, 80px); }
-    .bigtype .row.r2 { font-size: clamp(48px, 11vw, 100px); }
-    .bigtype .row.r3 { font-size: clamp(30px, 6vw, 56px); }
+    .cake-stage { gap: 8px; padding: 60px 16px 60px; }
+    .cake-instructions { font-size: 16px; }
+    .cake { width: min(45vh, 320px); height: min(36vh, 260px); }
+    .bigtype .row.r1 { font-size: clamp(36px, 8vh, 80px); }
+    .bigtype .row.r2 { font-size: clamp(44px, 10vh, 100px); }
+    .bigtype .row.r3 { font-size: clamp(28px, 6vh, 56px); }
   }
 
   /* Touch device — disable hover-only effects */
@@ -209,9 +197,11 @@
   /* Stage container */
   .stage {
     position: absolute; inset: 0;
-    display: grid; place-items: center;
+    display: flex; align-items: center; justify-content: center;
     z-index: 5;
     transition: opacity 700ms ease;
+    padding: clamp(72px, 10vh, 96px) 24px;
+    overflow: hidden;
   }
   .stage.hidden { opacity: 0; pointer-events: none; }
 
@@ -293,7 +283,7 @@
     border-radius: 8px;
     box-shadow:
       0 1px 0 rgba(0,0,0,0.06) inset,
-      8px 8px 0 var(--ink);
+      6px 6px 0 var(--ink);
     overflow: hidden;
   }
   .env-body::before, .env-body::after {
@@ -387,8 +377,8 @@
     text-align: center;
   }
 
-  /* ================== STAGE 2: BOLD CARD ================== */
-  .card-stage { padding: 40px; }
+  /* Stage 2: bold card type — viewport-relative so always fits */
+  .card-stage { padding: clamp(72px, 10vh, 96px) 24px; flex-direction: column; }
   .bigtype {
     text-align: center;
     line-height: 0.85;
@@ -396,6 +386,7 @@
     color: var(--ink);
     user-select: none;
     max-width: 1200px;
+    width: 100%;
   }
   .bigtype .row {
     display: block;
@@ -409,13 +400,13 @@
     font-variation-settings: "opsz" 144;
     transform-origin: 50% 80%;
   }
-  .bigtype .row.r1 { font-size: clamp(80px, 14vw, 220px); }
+  .bigtype .row.r1 { font-size: clamp(48px, min(13vw, 22vh), 200px); }
   .bigtype .row.r2 {
-    font-size: clamp(80px, 16vw, 260px);
+    font-size: clamp(56px, min(15vw, 26vh), 240px);
     color: var(--pink);
   }
   .bigtype .row.r3 {
-    font-size: clamp(60px, 9vw, 140px);
+    font-size: clamp(36px, min(8.5vw, 14vh), 130px);
     color: var(--blue);
     font-style: italic;
     font-weight: 800;
@@ -451,15 +442,20 @@
   }
 
   /* ================== STAGE 3: CAKE ================== */
-  .cake-stage { flex-direction: column; }
+  .cake-stage {
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(12px, 3vh, 28px);
+    padding: 80px 16px 80px;
+  }
   .cake-instructions {
-    position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
     text-align: center;
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: 36px;
+    font-size: clamp(20px, 3.5vh, 36px);
     color: var(--ink);
     z-index: 10;
+    flex-shrink: 0;
   }
   .cake-instructions .micsub {
     display: block;
@@ -472,8 +468,10 @@
 
   .cake {
     position: relative;
-    width: 480px; height: 380px;
-    margin-top: 60px;
+    width: min(480px, 80vw, 60vh);
+    height: min(380px, 64vw, 48vh);
+    margin: 0;
+    flex-shrink: 0;
     transition: transform 600ms cubic-bezier(.34,1.56,.64,1);
   }
   .cake.celebrate { animation: cakeBounce 600ms ease-in-out 2; }
@@ -501,21 +499,22 @@
     position: absolute;
     border: 3px solid var(--ink);
     border-radius: 12px;
-    box-shadow: 8px 8px 0 var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
   }
+  /* Cake tiers as percentages of cake container so they always scale */
   .tier-bottom {
-    bottom: 22px; left: 5%;
-    width: 90%; height: 130px;
+    bottom: 6%; left: 5%;
+    width: 90%; height: 34%;
     background: var(--blue);
   }
   .tier-middle {
-    bottom: 152px; left: 18%;
-    width: 64%; height: 100px;
+    bottom: 40%; left: 18%;
+    width: 64%; height: 26%;
     background: var(--lemon);
   }
   .tier-top {
-    bottom: 252px; left: 32%;
-    width: 36%; height: 80px;
+    bottom: 66%; left: 32%;
+    width: 36%; height: 21%;
     background: var(--pink);
   }
 
@@ -540,16 +539,18 @@
 
   .candles {
     position: absolute;
-    top: 200px;
+    bottom: 87%;
     left: 32%;
     width: 36%;
+    height: 18%;
     display: flex; justify-content: space-around; align-items: flex-end;
     z-index: 5;
   }
   .candle {
     position: relative;
-    width: 14px; height: 70px;
-    border: 3px solid var(--ink);
+    width: clamp(8px, 1.6vh, 14px);
+    height: 100%;
+    border: 2px solid var(--ink);
     border-radius: 3px;
     background: var(--cream);
     transition: transform 200ms ease;
@@ -595,15 +596,19 @@
     100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(1.6); }
   }
 
-  /* Mic level meter */
+  /* Mic + skip cluster — flex child of cake-stage, not absolute */
+  .cake-controls {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
   .mic-meter {
-    position: absolute;
-    bottom: 80px; left: 50%; transform: translateX(-50%);
-    width: 280px; height: 8px;
+    position: relative;
+    width: min(280px, 70vw); height: 8px;
     background: rgba(0,0,0,0.08);
     border-radius: 999px;
-    overflow: hidden;
+    overflow: visible;
     z-index: 10;
+    margin-top: 18px;
   }
   .mic-meter-fill {
     height: 100%;
@@ -611,6 +616,7 @@
     width: 0%;
     transition: width 80ms linear;
     border-radius: 999px;
+    overflow: hidden;
   }
   .mic-meter-label {
     position: absolute; top: -22px; left: 0; right: 0; text-align: center;
@@ -620,8 +626,7 @@
   }
 
   .skip-blow {
-    position: absolute;
-    bottom: 36px; left: 50%; transform: translateX(-50%);
+    position: relative;
     font-family: 'DM Mono', monospace;
     font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--ink); opacity: 0.45;
@@ -632,39 +637,43 @@
   .skip-blow:hover { opacity: 0.8; }
 
   /* ================== STAGE 4: WISH ================== */
-  .wish-stage { padding: 40px; flex-direction: column; }
+  .wish-stage { padding: clamp(72px, 10vh, 96px) 24px; flex-direction: column; overflow: hidden; }
   .wish-content {
     text-align: center;
     max-width: 900px;
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(16px, 3vh, 32px);
   }
   .wish-eyebrow {
     font-family: 'DM Mono', monospace;
     font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
     color: var(--blue);
-    margin-bottom: 24px;
+    margin: 0;
   }
   .wish-headline {
     font-family: 'Fraunces', serif;
     font-weight: 900; font-style: italic;
-    font-size: clamp(56px, 9vw, 132px);
+    font-size: clamp(40px, min(8vw, 14vh), 120px);
     line-height: 0.92;
     letter-spacing: -0.03em;
     color: var(--ink);
+    margin: 0;
   }
   .wish-headline .accent { color: var(--pink); }
   .wish-headline .accent2 { color: var(--blue); }
   .wish-body {
-    margin-top: 32px;
+    margin: 0;
     font-family: 'Instrument Serif', serif;
     font-style: italic;
-    font-size: clamp(20px, 2.4vw, 32px);
+    font-size: clamp(16px, min(2.2vw, 3vh), 28px);
     line-height: 1.4;
     color: var(--ink);
     opacity: 0.85;
-    max-width: 720px; margin-left: auto; margin-right: auto;
+    max-width: 720px;
   }
   .wish-from {
-    margin-top: 48px;
+    margin: 0;
     font-family: 'DM Mono', monospace;
     font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
     color: var(--ink);
@@ -680,8 +689,8 @@
   }
 
   .replay-btn {
-    margin-top: 48px;
-    padding: 16px 32px;
+    margin: 0;
+    padding: 14px 28px;
     font-family: 'DM Mono', monospace;
     font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
     background: var(--ink); color: var(--paper);
@@ -789,7 +798,7 @@
         </span>
       </span>
     </div>
-    <div class="card-cta hint" style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);" id="cardNext">
+    <div class="card-cta hint" id="cardNext" style="bottom: max(28px, env(safe-area-inset-bottom));">
       tap anywhere for cake <span class="next-arrow">→</span>
     </div>
   </div>
@@ -807,11 +816,13 @@
       <div class="tier tier-bottom"></div>
       <div class="plate"></div>
     </div>
-    <div class="mic-meter">
-      <div class="mic-meter-label">breath</div>
-      <div class="mic-meter-fill" id="micFill"></div>
+    <div class="cake-controls">
+      <div class="mic-meter">
+        <div class="mic-meter-label">breath</div>
+        <div class="mic-meter-fill" id="micFill"></div>
+      </div>
+      <div class="skip-blow" id="skipBlow">or tap candles to blow them out</div>
     </div>
-    <div class="skip-blow" id="skipBlow">or click candles to blow them out</div>
   </div>
 
   <!-- ============ STAGE 4: WISH ============ -->
