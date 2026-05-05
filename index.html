@@ -1,0 +1,1988 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#FFF8EC" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>Happy Birthday, Devanshi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF2E93;
+    --blue: #1F6BFF;
+    --lemon: #FFE94A;
+    --lime: #9CE53A;
+    --cream: #FFF8EC;
+    --ink: #161320;
+    --paper: #FFFCF5;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%; width: 100%;
+    overflow: hidden;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Fraunces', 'Instrument Serif', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  #app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport for mobile browsers */
+    overflow: hidden;
+  }
+
+  /* Soft animated backdrop dots */
+  .backdrop {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(255,46,147,0.08) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 78% 35%, rgba(31,107,255,0.08) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 30% 80%, rgba(156,229,58,0.10) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 88% 75%, rgba(255,233,74,0.12) 0 2px, transparent 2.5px);
+    background-size: 80px 80px, 120px 120px, 100px 100px, 140px 140px;
+    animation: drift 30s linear infinite;
+  }
+  @keyframes drift {
+    0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+    100% { background-position: 80px 80px, -120px 120px, 100px -100px, -140px 140px; }
+  }
+
+  /* Floating ambient shapes */
+  .ambient {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    overflow: hidden;
+  }
+  .ambient .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.45;
+    animation: float 18s ease-in-out infinite;
+  }
+  .ambient .blob.b1 { width: 380px; height: 380px; background: var(--pink); top: -120px; left: -100px; }
+  .ambient .blob.b2 { width: 320px; height: 320px; background: var(--blue); bottom: -100px; right: -80px; animation-delay: -6s; }
+  .ambient .blob.b3 { width: 260px; height: 260px; background: var(--lime); top: 40%; right: 18%; animation-delay: -12s; }
+  .ambient .blob.b4 { width: 220px; height: 220px; background: var(--lemon); bottom: 25%; left: 12%; animation-delay: -3s; opacity: 0.55; }
+
+  /* Low-end / reduced-motion mode: kill expensive effects */
+  body.low-fx .ambient .blob { filter: blur(20px); animation: none; opacity: 0.35; }
+  body.low-fx .backdrop { animation: none; }
+  body.low-fx #sparkles { display: none; }
+  body.low-fx .ambient .blob.b3, body.low-fx .ambient .blob.b4 { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient .blob, .backdrop { animation: none !important; }
+    .flame { animation: none !important; }
+  }
+
+  /* ============ MOBILE RESPONSIVE ============ */
+  @media (max-width: 720px) {
+    /* Backdrop dots smaller spacing */
+    .backdrop { background-size: 50px 50px, 70px 70px, 60px 60px, 80px 80px; }
+
+    /* Smaller, fewer ambient blobs */
+    .ambient .blob.b1 { width: 240px; height: 240px; top: -80px; left: -60px; }
+    .ambient .blob.b2 { width: 200px; height: 200px; bottom: -70px; right: -50px; }
+    .ambient .blob.b3 { width: 160px; height: 160px; }
+    .ambient .blob.b4 { display: none; }
+
+    /* Sound + restart smaller */
+    .sound-toggle {
+      top: max(16px, env(safe-area-inset-top));
+      right: max(16px, env(safe-area-inset-right));
+      width: 40px; height: 40px;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .restart {
+      top: max(16px, env(safe-area-inset-top));
+      left: max(16px, env(safe-area-inset-left));
+      padding: 8px 12px;
+      font-size: 10px;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    /* Stage 1: Envelope */
+    .envelope {
+      width: min(85vw, 360px);
+      height: min(57vw, 240px);
+    }
+    .seal { width: 60px; height: 60px; font-size: 26px; border-width: 2px; }
+    .letter-title { font-size: 20px; }
+    .letter-name { font-size: 18px; }
+    .env-from { bottom: -28px; font-size: 10px; }
+
+    /* Stage 2: Big type — already uses vw clamp, just tighten */
+    .card-stage { padding: 16px; }
+    .bigtype .row.r1 { font-size: clamp(48px, 16vw, 120px); }
+    .bigtype .row.r2 { font-size: clamp(56px, 18vw, 140px); }
+    .bigtype .row.r3 { font-size: clamp(36px, 11vw, 80px); }
+    .bigtype { line-height: 0.9; }
+
+    /* Stage 3: Cake — scale down */
+    .cake-instructions {
+      top: max(72px, calc(env(safe-area-inset-top) + 56px));
+      font-size: 24px;
+      padding: 0 16px;
+      width: 100%;
+    }
+    .cake-instructions .micsub { font-size: 9px; }
+    .cake {
+      width: min(86vw, 360px);
+      height: min(70vw, 290px);
+      margin-top: 30px;
+    }
+    .tier { box-shadow: 5px 5px 0 var(--ink); border-width: 2px; }
+    .tier-bottom { bottom: 18px; height: 100px; }
+    .tier-middle { bottom: 116px; height: 78px; }
+    .tier-top { bottom: 192px; height: 64px; }
+    .candles { top: 152px; }
+    .candle { width: 11px; height: 54px; border-width: 2px; }
+    .flame { width: 14px; height: 22px; top: -28px; }
+    .mic-meter { width: min(80vw, 280px); bottom: 60px; }
+    .skip-blow { bottom: 24px; font-size: 9px; }
+
+    /* Stage 4: Wish */
+    .wish-stage { padding: 24px 16px; }
+    .wish-eyebrow { font-size: 10px; margin-bottom: 16px; }
+    .wish-headline { font-size: clamp(36px, 11vw, 64px); }
+    .wish-body { font-size: clamp(16px, 4vw, 22px); margin-top: 20px; }
+    .wish-from { margin-top: 28px; font-size: 10px; }
+    .wish-from strong { font-size: 18px; }
+    .replay-btn { margin-top: 28px; padding: 14px 24px; font-size: 11px; }
+
+    /* Hint */
+    .hint { font-size: 10px; bottom: max(20px, env(safe-area-inset-bottom)); }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    .envelope { width: 88vw; height: 58vw; }
+    .seal { width: 52px; height: 52px; font-size: 22px; }
+    .bigtype .row.r1 { font-size: 50px; }
+    .bigtype .row.r2 { font-size: 60px; }
+    .bigtype .row.r3 { font-size: 38px; }
+    .cake { width: 88vw; height: 72vw; }
+  }
+
+  /* Landscape on phones — keep cake compact */
+  @media (max-height: 520px) and (orientation: landscape) {
+    .cake-instructions { top: 12px; font-size: 18px; }
+    .cake { margin-top: 0; height: min(60vh, 240px); width: min(40vw, 320px); }
+    .tier-bottom { height: 80px; bottom: 14px; }
+    .tier-middle { height: 60px; bottom: 92px; }
+    .tier-top { height: 50px; bottom: 150px; }
+    .candles { top: 116px; }
+    .candle { height: 44px; }
+    .mic-meter { bottom: 36px; }
+    .skip-blow { bottom: 12px; }
+    .bigtype .row.r1 { font-size: clamp(40px, 9vw, 80px); }
+    .bigtype .row.r2 { font-size: clamp(48px, 11vw, 100px); }
+    .bigtype .row.r3 { font-size: clamp(30px, 6vw, 56px); }
+  }
+
+  /* Touch device — disable hover-only effects */
+  @media (hover: none) {
+    .envelope-wrap:hover .envelope { transform: none; }
+    .envelope-wrap:hover .seal { transform: translate(-50%, -50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.08); }
+    66% { transform: translate(-30px, 40px) scale(0.95); }
+  }
+
+  /* Stage container */
+  .stage {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    z-index: 5;
+    transition: opacity 700ms ease;
+  }
+  .stage.hidden { opacity: 0; pointer-events: none; }
+
+  /* Confetti canvas full screen */
+  #confetti {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 50;
+  }
+
+  /* Sparkle cursor canvas */
+  #sparkles {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 40;
+  }
+
+  /* Hint */
+  .hint {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.55;
+    z-index: 60; pointer-events: none;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.35; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.75; transform: translateX(-50%) translateY(-3px); }
+  }
+
+  /* Sound toggle */
+  .sound-toggle {
+    position: absolute; top: 24px; right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    display: grid; place-items: center;
+    cursor: pointer;
+    z-index: 70;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform 120ms ease;
+    font-size: 18px;
+  }
+  .sound-toggle:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+  .sound-toggle:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+
+  /* Restart button */
+  .restart {
+    position: absolute; top: 24px; left: 24px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    z-index: 70;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: all 120ms ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .restart.show { opacity: 1; pointer-events: auto; }
+  .restart:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+
+  /* ================== STAGE 1: ENVELOPE ================== */
+  .envelope-wrap { perspective: 1200px; cursor: pointer; }
+  .envelope {
+    position: relative;
+    width: 480px; height: 320px;
+    transition: transform 600ms cubic-bezier(.34,1.56,.64,1);
+    transform-style: preserve-3d;
+  }
+  .envelope-wrap:hover .envelope { transform: translateY(-8px) rotate(-1deg); }
+  .env-body {
+    position: absolute; inset: 0;
+    background: var(--pink);
+    border-radius: 8px;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,0.06) inset,
+      8px 8px 0 var(--ink);
+    overflow: hidden;
+  }
+  .env-body::before, .env-body::after {
+    content: ""; position: absolute;
+    background: rgba(0,0,0,0.12);
+  }
+  /* triangle fold lines on body */
+  .env-body::before {
+    left: 0; bottom: 0; width: 50%; height: 100%;
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    background: rgba(0,0,0,0.06);
+  }
+  .env-body::after {
+    right: 0; bottom: 0; width: 50%; height: 100%;
+    clip-path: polygon(0 100%, 100% 100%, 0 0);
+    background: rgba(0,0,0,0.10);
+  }
+  .env-flap {
+    position: absolute; top: 0; left: 0; width: 100%; height: 60%;
+    background: var(--pink);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 900ms cubic-bezier(.7,-0.2,.3,1.4);
+    z-index: 3;
+    filter: brightness(0.92);
+  }
+  .envelope.opening .env-flap { transform: rotateX(180deg); }
+  .env-flap::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.06), transparent 40%);
+  }
+
+  /* Wax seal */
+  .seal {
+    position: absolute;
+    top: 38%; left: 50%;
+    width: 80px; height: 80px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--lemon);
+    border: 3px solid var(--ink);
+    display: grid; place-items: center;
+    z-index: 4;
+    font-family: 'Fraunces', serif;
+    font-weight: 900; font-style: italic;
+    font-size: 32px;
+    color: var(--ink);
+    box-shadow: 0 4px 0 var(--ink);
+    transition: transform 400ms cubic-bezier(.34,1.56,.64,1), opacity 400ms ease;
+  }
+  .envelope.opening .seal { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  .envelope-wrap:hover .seal { transform: translate(-50%, -50%) rotate(-8deg); }
+
+  /* Letter peeking out */
+  .letter {
+    position: absolute;
+    top: 30%; left: 8%;
+    width: 84%; height: 80%;
+    background: var(--paper);
+    border-radius: 4px;
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 1100ms cubic-bezier(.4,0,.2,1) 600ms;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    padding: 24px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .envelope.opening .letter { transform: translateY(-58%); }
+  .letter-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--blue);
+    line-height: 1;
+  }
+  .letter-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--ink);
+    margin-top: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .env-from {
+    position: absolute; bottom: -36px; left: 0; width: 100%;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.6;
+    text-align: center;
+  }
+
+  /* ================== STAGE 2: BOLD CARD ================== */
+  .card-stage { padding: 40px; }
+  .bigtype {
+    text-align: center;
+    line-height: 0.85;
+    font-family: 'Fraunces', serif;
+    color: var(--ink);
+    user-select: none;
+    max-width: 1200px;
+  }
+  .bigtype .row {
+    display: block;
+    overflow: visible;
+  }
+  .bigtype .word {
+    display: inline-block;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+    transform-origin: 50% 80%;
+  }
+  .bigtype .row.r1 { font-size: clamp(80px, 14vw, 220px); }
+  .bigtype .row.r2 {
+    font-size: clamp(80px, 16vw, 260px);
+    color: var(--pink);
+  }
+  .bigtype .row.r3 {
+    font-size: clamp(60px, 9vw, 140px);
+    color: var(--blue);
+    font-style: italic;
+    font-weight: 800;
+  }
+  .bigtype .name {
+    display: inline-block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
+    background: linear-gradient(180deg, transparent 60%, var(--lemon) 60%);
+    padding: 0 0.1em;
+    letter-spacing: -0.01em;
+  }
+  .underline-swoop {
+    display: inline-block;
+    position: relative;
+  }
+  .underline-swoop svg {
+    position: absolute; left: -8px; right: -8px; bottom: -18px; width: calc(100% + 16px); height: 30px;
+  }
+
+  .letter-char {
+    display: inline-block;
+    cursor: grab;
+    transition: color 200ms;
+  }
+  .letter-char:active { cursor: grabbing; }
+
+  .card-cta {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  /* ================== STAGE 3: CAKE ================== */
+  .cake-stage { flex-direction: column; }
+  .cake-instructions {
+    position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+    text-align: center;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 36px;
+    color: var(--ink);
+    z-index: 10;
+  }
+  .cake-instructions .micsub {
+    display: block;
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-style: normal;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.55;
+  }
+
+  .cake {
+    position: relative;
+    width: 480px; height: 380px;
+    margin-top: 60px;
+    transition: transform 600ms cubic-bezier(.34,1.56,.64,1);
+  }
+  .cake.celebrate { animation: cakeBounce 600ms ease-in-out 2; }
+  @keyframes cakeBounce {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(-18px) rotate(-2deg); }
+    75% { transform: translateY(-12px) rotate(2deg); }
+  }
+
+  .plate {
+    position: absolute; bottom: 0; left: -10%; width: 120%; height: 28px;
+    background: var(--ink);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .plate::before {
+    content: ""; position: absolute; bottom: 14px; left: 5%; width: 90%; height: 18px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .tier {
+    position: absolute;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+  .tier-bottom {
+    bottom: 22px; left: 5%;
+    width: 90%; height: 130px;
+    background: var(--blue);
+  }
+  .tier-middle {
+    bottom: 152px; left: 18%;
+    width: 64%; height: 100px;
+    background: var(--lemon);
+  }
+  .tier-top {
+    bottom: 252px; left: 32%;
+    width: 36%; height: 80px;
+    background: var(--pink);
+  }
+
+  /* drips */
+  .drip {
+    position: absolute; top: -3px; height: 14px;
+    background: inherit;
+    border-left: 3px solid var(--ink);
+    border-right: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* sprinkles */
+  .sprinkle {
+    position: absolute;
+    width: 10px; height: 3px;
+    background: var(--ink);
+    border-radius: 2px;
+    transform-origin: center;
+  }
+
+  .candles {
+    position: absolute;
+    top: 200px;
+    left: 32%;
+    width: 36%;
+    display: flex; justify-content: space-around; align-items: flex-end;
+    z-index: 5;
+  }
+  .candle {
+    position: relative;
+    width: 14px; height: 70px;
+    border: 3px solid var(--ink);
+    border-radius: 3px;
+    background: var(--cream);
+    transition: transform 200ms ease;
+  }
+  .candle:nth-child(1) { background: var(--pink); }
+  .candle:nth-child(2) { background: var(--lime); }
+  .candle:nth-child(3) { background: var(--paper); }
+  .candle:nth-child(4) { background: var(--lemon); }
+  .candle:nth-child(5) { background: var(--blue); }
+
+  .candle::before {
+    content: "";
+    position: absolute; left: 50%; top: -10px;
+    width: 2px; height: 10px;
+    background: var(--ink);
+    transform: translateX(-50%);
+  }
+  .flame {
+    position: absolute; left: 50%; top: -34px;
+    width: 18px; height: 26px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at 50% 70%, #FFE94A 0%, #FFB400 50%, #FF6A00 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: 0 0 24px rgba(255, 180, 0, 0.7), 0 0 40px rgba(255, 100, 0, 0.4);
+    transform-origin: 50% 100%;
+    animation: flicker 240ms ease-in-out infinite alternate;
+  }
+  @keyframes flicker {
+    0% { transform: translateX(-50%) scale(1, 1) rotate(-2deg); }
+    100% { transform: translateX(-50%) scale(0.95, 1.05) rotate(2deg); }
+  }
+  .candle.out .flame { opacity: 0; transform: translateX(-50%) scale(0.4); transition: all 200ms ease; }
+  .candle.out::after {
+    content: ""; position: absolute; left: 50%; top: -28px;
+    width: 4px; height: 20px;
+    background: linear-gradient(180deg, transparent, rgba(120,120,120,0.6), transparent);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    animation: smoke 1.2s ease-out forwards;
+  }
+  @keyframes smoke {
+    0% { opacity: 0.7; transform: translateX(-50%) translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(1.6); }
+  }
+
+  /* Mic level meter */
+  .mic-meter {
+    position: absolute;
+    bottom: 80px; left: 50%; transform: translateX(-50%);
+    width: 280px; height: 8px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    z-index: 10;
+  }
+  .mic-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lime), var(--lemon), var(--pink));
+    width: 0%;
+    transition: width 80ms linear;
+    border-radius: 999px;
+  }
+  .mic-meter-label {
+    position: absolute; top: -22px; left: 0; right: 0; text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.5;
+  }
+
+  .skip-blow {
+    position: absolute;
+    bottom: 36px; left: 50%; transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.45;
+    cursor: pointer;
+    text-decoration: underline;
+    z-index: 10;
+  }
+  .skip-blow:hover { opacity: 0.8; }
+
+  /* ================== STAGE 4: WISH ================== */
+  .wish-stage { padding: 40px; flex-direction: column; }
+  .wish-content {
+    text-align: center;
+    max-width: 900px;
+  }
+  .wish-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 24px;
+  }
+  .wish-headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 900; font-style: italic;
+    font-size: clamp(56px, 9vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .wish-headline .accent { color: var(--pink); }
+  .wish-headline .accent2 { color: var(--blue); }
+  .wish-body {
+    margin-top: 32px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 32px);
+    line-height: 1.4;
+    color: var(--ink);
+    opacity: 0.85;
+    max-width: 720px; margin-left: auto; margin-right: auto;
+  }
+  .wish-from {
+    margin-top: 48px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+  .wish-from strong {
+    font-family: 'Fraunces', serif;
+    font-style: italic; font-weight: 700;
+    font-size: 22px; letter-spacing: -0.01em;
+    color: var(--pink);
+    text-transform: none;
+    margin-left: 6px;
+  }
+
+  .replay-btn {
+    margin-top: 48px;
+    padding: 16px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    background: var(--ink); color: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--pink);
+    transition: all 150ms ease;
+  }
+  .replay-btn:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--pink); }
+  .replay-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--pink); }
+
+  /* Click ripple */
+  .ripple {
+    position: absolute;
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: rippleOut 600ms ease-out forwards;
+    z-index: 30;
+  }
+  @keyframes rippleOut {
+    0% { width: 0; height: 0; opacity: 0.8; }
+    100% { width: 200px; height: 200px; opacity: 0; }
+  }
+
+  /* Big card open animation */
+  .card-stage .row {
+    animation: dropIn 700ms cubic-bezier(.34,1.56,.64,1) backwards;
+  }
+  .card-stage .r1 { animation-delay: 100ms; }
+  .card-stage .r2 { animation-delay: 280ms; }
+  .card-stage .r3 { animation-delay: 480ms; }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-40px) rotate(-3deg) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  /* Wobble on click */
+  .wobble { animation: wobble 500ms ease-in-out; }
+  @keyframes wobble {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    25% { transform: translateY(-12px) rotate(-4deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+    75% { transform: translateY(-3px) rotate(-2deg); }
+  }
+
+  /* Tap to continue arrow */
+  .next-arrow {
+    display: inline-block;
+    margin-left: 12px;
+    transition: transform 200ms;
+  }
+  .card-cta:hover .next-arrow { transform: translateX(6px); }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="backdrop"></div>
+  <div class="ambient">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <canvas id="sparkles"></canvas>
+  <canvas id="confetti"></canvas>
+
+  <button class="sound-toggle" id="soundToggle" title="Toggle sound">
+    <span id="soundIcon">🔔</span>
+  </button>
+  <button class="restart" id="restartBtn">↺ Replay</button>
+
+  <!-- ============ STAGE 1: ENVELOPE ============ -->
+  <div class="stage" id="stage1">
+    <div class="envelope-wrap" id="envWrap">
+      <div class="envelope" id="envelope">
+        <div class="env-body">
+          <div class="letter">
+            <div class="letter-title">a letter for</div>
+            <div class="letter-name" id="letterName">Devanshi</div>
+          </div>
+          <div class="env-flap"></div>
+          <div class="seal">D</div>
+        </div>
+        <div class="env-from">From Divyang · Tap to open</div>
+      </div>
+    </div>
+    <div class="hint">click the envelope</div>
+  </div>
+
+  <!-- ============ STAGE 2: BIG CARD ============ -->
+  <div class="stage hidden card-stage" id="stage2">
+    <div class="bigtype">
+      <span class="row r1"><span class="word" data-word="HAPPY"></span></span>
+      <span class="row r2"><span class="word" data-word="BIRTHDAY"></span></span>
+      <span class="row r3">
+        <span class="underline-swoop">
+          <span class="name" id="cardName">Devanshi</span>
+          <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+            <path d="M2,20 Q50,4 100,18 T198,14" stroke="#FF2E93" stroke-width="3" fill="none" stroke-linecap="round" />
+          </svg>
+        </span>
+      </span>
+    </div>
+    <div class="card-cta hint" style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);" id="cardNext">
+      tap anywhere for cake <span class="next-arrow">→</span>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 3: CAKE ============ -->
+  <div class="stage hidden cake-stage" id="stage3">
+    <div class="cake-instructions">
+      Make a wish, blow them out
+      <span class="micsub" id="micStatus">requesting microphone…</span>
+    </div>
+    <div class="cake" id="cake">
+      <div class="candles" id="candles"></div>
+      <div class="tier tier-top"></div>
+      <div class="tier tier-middle"></div>
+      <div class="tier tier-bottom"></div>
+      <div class="plate"></div>
+    </div>
+    <div class="mic-meter">
+      <div class="mic-meter-label">breath</div>
+      <div class="mic-meter-fill" id="micFill"></div>
+    </div>
+    <div class="skip-blow" id="skipBlow">or click candles to blow them out</div>
+  </div>
+
+  <!-- ============ STAGE 4: WISH ============ -->
+  <div class="stage hidden wish-stage" id="stage4">
+    <div class="wish-content">
+      <div class="wish-eyebrow">your wish is on its way ✶</div>
+      <h1 class="wish-headline">
+        Make this <span class="accent">your</span><br>
+        <span class="accent2">brightest</span> year yet.
+      </h1>
+      <p class="wish-body">
+        Here's to chaotic playlists, unhinged laughter, plans that actually happen, and a whole year of getting exactly what you didn't know you needed.
+      </p>
+      <div class="wish-from">with love, <strong id="fromName">Divyang</strong></div>
+      <button class="replay-btn" id="replayBtn">Open it again</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tweaks -->
+<script>
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "recipientName": "Devanshi",
+    "fromName": "Divyang",
+    "candleCount": 5,
+    "confettiDensity": 1,
+    "palette": "confetti"
+  }/*EDITMODE-END*/;
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+<script type="text/babel">
+// Tweaks panel for Birthday Card
+
+const { useState, useEffect } = React;
+
+function TweaksApp() {
+  const defaults = window.TWEAK_DEFAULTS || {};
+  const [tweaks, setTweak] = window.useTweaks(defaults);
+
+  // Wire to card
+  useEffect(() => {
+    if (!window.__card) return;
+    window.__card.setRecipientName(tweaks.recipientName);
+    window.__card.setFromName(tweaks.fromName);
+    window.__card.setCandleCount(tweaks.candleCount);
+    window.__card.setConfettiDensity(tweaks.confettiDensity);
+  }, [tweaks]);
+
+  return (
+    <window.TweaksPanel title="Tweaks">
+      <window.TweakSection label="Names">
+        <window.TweakText
+          label="For"
+          value={tweaks.recipientName}
+          onChange={(v) => setTweak('recipientName', v)}
+        />
+        <window.TweakText
+          label="From"
+          value={tweaks.fromName}
+          onChange={(v) => setTweak('fromName', v)}
+        />
+      </window.TweakSection>
+
+      <window.TweakSection label="Cake">
+        <window.TweakSlider
+          label="Candles"
+          value={tweaks.candleCount}
+          min={1} max={12} step={1}
+          onChange={(v) => setTweak('candleCount', v)}
+        />
+      </window.TweakSection>
+
+      <window.TweakSection label="Confetti">
+        <window.TweakSlider
+          label="Density"
+          value={tweaks.confettiDensity}
+          min={0.3} max={3} step={0.1}
+          onChange={(v) => setTweak('confettiDensity', v)}
+        />
+        <window.TweakButton
+          label="Burst now"
+          onClick={() => window.__card?.burstConfetti(null, null, 150)}
+        />
+      </window.TweakSection>
+    </window.TweaksPanel>
+  );
+}
+
+// Mount
+const tweaksRoot = document.createElement('div');
+tweaksRoot.id = 'tweaks-root';
+document.body.appendChild(tweaksRoot);
+ReactDOM.createRoot(tweaksRoot).render(<TweaksApp />);
+
+</script>
+
+<script>
+// ============================================================
+// Birthday Card — Multi-Stage Interactive
+// ============================================================
+
+(function() {
+  'use strict';
+
+  // ---------- Device / perf detection ----------
+  const ua = navigator.userAgent || '';
+  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  const isMobile = /android|iphone|ipad|ipod|mobile/i.test(ua) || window.innerWidth < 720;
+  const cores = navigator.hardwareConcurrency || 4;
+  const memory = navigator.deviceMemory || 4;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowEnd = reducedMotion || cores <= 4 || memory <= 2 || (isMobile && cores <= 6);
+  if (lowEnd) document.body.classList.add('low-fx');
+
+  // ---------- State ----------
+  const state = {
+    stage: 1,
+    soundOn: true,
+    audioCtx: null,
+    micStream: null,
+    micAnalyser: null,
+    micRAF: null,
+    candleCount: 5,
+    confettiDensity: lowEnd ? 0.5 : 1,
+    blownOut: 0,
+    recipientName: 'Devanshi',
+    fromName: 'Divyang',
+    isMobile, isTouch, lowEnd
+  };
+
+  // Read tweaks if present
+  if (window.TWEAK_DEFAULTS) {
+    Object.assign(state, {
+      candleCount: window.TWEAK_DEFAULTS.candleCount || 5,
+      confettiDensity: window.TWEAK_DEFAULTS.confettiDensity || 1,
+      recipientName: window.TWEAK_DEFAULTS.recipientName || 'Devanshi',
+      fromName: window.TWEAK_DEFAULTS.fromName || 'Divyang'
+    });
+  }
+
+  // ---------- DOM ----------
+  const $ = (id) => document.getElementById(id);
+  const stages = [null, $('stage1'), $('stage2'), $('stage3'), $('stage4')];
+
+  // ---------- Audio Engine ----------
+  const Audio = {
+    ctx: null,
+    init() {
+      if (this.ctx) return this.ctx;
+      try {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {}
+      return this.ctx;
+    },
+    note(freq, duration = 0.3, type = 'sine', volume = 0.2, when = 0) {
+      if (!state.soundOn) return;
+      const ctx = this.init();
+      if (!ctx) return;
+      const t = ctx.currentTime + when;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(volume, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + duration + 0.05);
+    },
+    chime() {
+      this.note(880, 0.4, 'triangle', 0.15);
+      this.note(1320, 0.5, 'triangle', 0.12, 0.05);
+      this.note(1760, 0.6, 'sine', 0.1, 0.1);
+    },
+    pop() {
+      if (!state.soundOn) return;
+      const ctx = this.init();
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(120 + Math.random() * 60, t);
+      osc.frequency.exponentialRampToValueAtTime(60, t + 0.08);
+      gain.gain.setValueAtTime(0.25, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.1);
+    },
+    whoosh() {
+      if (!state.soundOn) return;
+      const ctx = this.init();
+      if (!ctx) return;
+      const t = ctx.currentTime;
+      const bufferSize = 0.4 * ctx.sampleRate;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 800;
+      filter.Q.value = 0.5;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.15, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      noise.connect(filter).connect(gain).connect(ctx.destination);
+      noise.start(t);
+    },
+    sparkle() {
+      if (!state.soundOn) return;
+      const freqs = [1200, 1800, 2400];
+      freqs.forEach((f, i) => this.note(f + Math.random() * 200, 0.18, 'sine', 0.06, i * 0.03));
+    },
+    happyBirthday() {
+      if (!state.soundOn) return;
+      // Happy Birthday melody — simple
+      // C C D C F E | C C D C G F | C C C5 A F E D | Bb Bb A F G F
+      const ctx = this.init();
+      if (!ctx) return;
+      const tempo = 0.32;
+      const notes = [
+        // Happy Birth-day to you
+        ['C4', 0.75], ['C4', 0.25], ['D4', 1], ['C4', 1], ['F4', 1], ['E4', 2],
+        // Happy Birth-day to you
+        ['C4', 0.75], ['C4', 0.25], ['D4', 1], ['C4', 1], ['G4', 1], ['F4', 2],
+        // Happy Birth-day dear ___
+        ['C4', 0.75], ['C4', 0.25], ['C5', 1], ['A4', 1], ['F4', 1], ['E4', 1], ['D4', 2],
+        // Happy Birth-day to you
+        ['Bb4', 0.75], ['Bb4', 0.25], ['A4', 1], ['F4', 1], ['G4', 1], ['F4', 2]
+      ];
+      const freqMap = {
+        'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23,
+        'G4': 392.00, 'A4': 440.00, 'Bb4': 466.16, 'C5': 523.25
+      };
+      let t = 0;
+      notes.forEach(([n, dur]) => {
+        const freq = freqMap[n];
+        // main + harmony
+        this.note(freq, dur * tempo * 0.95, 'triangle', 0.12, t);
+        this.note(freq * 2, dur * tempo * 0.95, 'sine', 0.04, t);
+        t += dur * tempo;
+      });
+    }
+  };
+  window.Audio2 = Audio;
+
+  // ---------- Sound toggle ----------
+  $('soundToggle').addEventListener('click', () => {
+    state.soundOn = !state.soundOn;
+    $('soundIcon').textContent = state.soundOn ? '🔔' : '🔕';
+    if (state.soundOn) Audio.note(880, 0.15, 'triangle', 0.1);
+  });
+
+  // ---------- Stage Switch ----------
+  function go(n) {
+    if (n === state.stage) return;
+    stages[state.stage]?.classList.add('hidden');
+    state.stage = n;
+    stages[n]?.classList.remove('hidden');
+    if (n === 4) {
+      $('restartBtn').classList.add('show');
+    } else {
+      $('restartBtn').classList.remove('show');
+    }
+  }
+
+  // ============================================================
+  // STAGE 1: ENVELOPE
+  // ============================================================
+  const envWrap = $('envWrap');
+  const envelope = $('envelope');
+  let opened = false;
+  envWrap.addEventListener('click', (e) => {
+    if (opened) return;
+    opened = true;
+    Audio.init(); // unlock
+    Audio.whoosh();
+    setTimeout(() => Audio.chime(), 200);
+    envelope.classList.add('opening');
+    spawnRipple(e.clientX, e.clientY);
+    setTimeout(() => {
+      go(2);
+      // little confetti puff
+      Confetti.burst(window.innerWidth/2, window.innerHeight/2, 30);
+    }, 1700);
+  });
+
+  // ============================================================
+  // STAGE 2: BIG CARD with letter scrambling
+  // ============================================================
+  function buildBigType() {
+    document.querySelectorAll('.bigtype .word').forEach(word => {
+      const text = word.dataset.word;
+      word.innerHTML = '';
+      [...text].forEach((ch, i) => {
+        const span = document.createElement('span');
+        span.className = 'letter-char';
+        span.textContent = ch;
+        span.style.transition = 'transform 400ms cubic-bezier(.34,1.56,.64,1), color 200ms';
+        span.dataset.idx = i;
+        word.appendChild(span);
+      });
+    });
+
+    const colors = ['#FF2E93', '#1F6BFF', '#FFE94A', '#9CE53A'];
+    const handleLetterTrigger = (span) => {
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      span.style.color = c;
+      span.style.transform = `translateY(-12px) rotate(${(Math.random()-0.5)*16}deg)`;
+      Audio.note(400 + Math.random() * 600, 0.1, 'sine', 0.06);
+      setTimeout(() => { span.style.transform = ''; }, 350);
+    };
+    document.querySelectorAll('.letter-char').forEach(span => {
+      // Use pointerenter — fires for both mouse & touch (touch fires on tap)
+      span.addEventListener('pointerenter', () => handleLetterTrigger(span));
+      span.addEventListener('click', (e) => {
+        e.stopPropagation();
+        span.style.transform = `translateY(-30px) scale(1.4) rotate(${(Math.random()-0.5)*40}deg)`;
+        const rect = span.getBoundingClientRect();
+        Confetti.burst(rect.left + rect.width/2, rect.top + rect.height/2, 12);
+        Audio.pop();
+        setTimeout(() => { span.style.transform = ''; }, 500);
+      });
+    });
+  }
+  buildBigType();
+
+  // Click anywhere in stage2 (not on letters) → go to cake
+  stages[2].addEventListener('click', (e) => {
+    if (e.target.classList.contains('letter-char')) return;
+    Audio.pop();
+    spawnRipple(e.clientX, e.clientY);
+    Confetti.burst(e.clientX, e.clientY, 16);
+    setTimeout(() => {
+      go(3);
+      initCake();
+    }, 250);
+  });
+
+  // ============================================================
+  // STAGE 3: CAKE with mic-blown candles
+  // ============================================================
+  function buildCandles() {
+    const wrap = $('candles');
+    wrap.innerHTML = '';
+    state.blownOut = 0;
+    for (let i = 0; i < state.candleCount; i++) {
+      const c = document.createElement('div');
+      c.className = 'candle';
+      const flame = document.createElement('div');
+      flame.className = 'flame';
+      flame.style.animationDelay = (Math.random() * 200) + 'ms';
+      c.appendChild(flame);
+      // click to blow out
+      c.addEventListener('click', () => blowOutCandle(c));
+      wrap.appendChild(c);
+    }
+  }
+
+  function blowOutCandle(c) {
+    if (c.classList.contains('out')) return;
+    c.classList.add('out');
+    state.blownOut++;
+    Audio.pop();
+    const rect = c.getBoundingClientRect();
+    Confetti.burst(rect.left + rect.width/2, rect.top, 8);
+    if (state.blownOut >= state.candleCount) {
+      celebrate();
+    }
+  }
+
+  function celebrate() {
+    $('cake').classList.add('celebrate');
+    Audio.happyBirthday();
+    // Big confetti burst
+    setTimeout(() => Confetti.burst(window.innerWidth/2, window.innerHeight/2, 120), 200);
+    setTimeout(() => Confetti.burst(window.innerWidth*0.25, window.innerHeight*0.5, 60), 600);
+    setTimeout(() => Confetti.burst(window.innerWidth*0.75, window.innerHeight*0.5, 60), 800);
+    stopMic();
+    setTimeout(() => go(4), 2400);
+  }
+
+  $('skipBlow').addEventListener('click', () => {
+    document.querySelectorAll('.candle').forEach((c, i) => {
+      setTimeout(() => blowOutCandle(c), i * 120);
+    });
+  });
+
+  function initCake() {
+    buildCandles();
+    requestMic();
+    addCakeSprinkles();
+  }
+
+  function addCakeSprinkles() {
+    const tiers = document.querySelectorAll('.tier');
+    tiers.forEach(t => {
+      // remove old sprinkles
+      t.querySelectorAll('.sprinkle').forEach(s => s.remove());
+      const count = 6 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'sprinkle';
+        s.style.left = (10 + Math.random() * 80) + '%';
+        s.style.top = (15 + Math.random() * 70) + '%';
+        s.style.transform = `rotate(${Math.random() * 360}deg)`;
+        s.style.background = ['#FF2E93','#1F6BFF','#FFE94A','#9CE53A','#161320'][Math.floor(Math.random()*5)];
+        t.appendChild(s);
+      }
+    });
+  }
+
+  // ---------- Microphone ----------
+  async function requestMic() {
+    const status = $('micStatus');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+      state.micStream = stream;
+      const ctx = Audio.init();
+      const source = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 1024;
+      source.connect(analyser);
+      state.micAnalyser = analyser;
+      status.textContent = 'BLOW INTO YOUR MIC';
+      monitorMic();
+    } catch (e) {
+      status.textContent = 'NO MIC — CLICK CANDLES TO BLOW OUT';
+      status.style.color = 'var(--pink)';
+    }
+  }
+
+  function stopMic() {
+    if (state.micRAF) cancelAnimationFrame(state.micRAF);
+    if (state.micStream) {
+      state.micStream.getTracks().forEach(t => t.stop());
+      state.micStream = null;
+    }
+  }
+
+  function monitorMic() {
+    const analyser = state.micAnalyser;
+    if (!analyser) return;
+    const buf = new Uint8Array(analyser.fftSize);
+    const fill = $('micFill');
+    let blowFrames = 0;
+    let cooldown = 0;
+
+    const tick = () => {
+      analyser.getByteTimeDomainData(buf);
+      // RMS
+      let sum = 0;
+      for (let i = 0; i < buf.length; i++) {
+        const v = (buf[i] - 128) / 128;
+        sum += v * v;
+      }
+      const rms = Math.sqrt(sum / buf.length);
+      // amplify and clamp
+      const level = Math.min(1, rms * 4);
+      fill.style.width = (level * 100) + '%';
+
+      // Blow detection: sustained loud
+      const BLOW_THRESHOLD = 0.35;
+      if (level > BLOW_THRESHOLD) {
+        blowFrames++;
+      } else {
+        blowFrames = Math.max(0, blowFrames - 1);
+      }
+
+      if (cooldown > 0) cooldown--;
+
+      if (blowFrames > 6 && cooldown === 0) {
+        // blow out one or two candles
+        const remaining = [...document.querySelectorAll('.candle:not(.out)')];
+        if (remaining.length > 0) {
+          const n = Math.min(remaining.length, level > 0.7 ? 2 : 1);
+          for (let i = 0; i < n; i++) {
+            blowOutCandle(remaining[i]);
+          }
+          cooldown = 20;
+          blowFrames = 0;
+        }
+      }
+
+      // Flame flutter based on level
+      document.querySelectorAll('.candle:not(.out) .flame').forEach((f, idx) => {
+        const wobble = level * 30 * (idx % 2 ? 1 : -1);
+        f.style.transform = `translateX(calc(-50% + ${wobble}px)) scale(${1 - level * 0.2}, ${1 + level * 0.3})`;
+      });
+
+      state.micRAF = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  // ============================================================
+  // STAGE 4: WISH — replay
+  // ============================================================
+  $('replayBtn').addEventListener('click', restart);
+  $('restartBtn').addEventListener('click', restart);
+
+  function restart() {
+    // Reset envelope
+    opened = false;
+    envelope.classList.remove('opening');
+    $('cake').classList.remove('celebrate');
+    state.blownOut = 0;
+    go(1);
+  }
+
+  // ============================================================
+  // RIPPLE
+  // ============================================================
+  function spawnRipple(x, y) {
+    const r = document.createElement('div');
+    r.className = 'ripple';
+    r.style.left = (x - 0) + 'px';
+    r.style.top = (y - 0) + 'px';
+    r.style.transform = 'translate(-50%, -50%)';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 700);
+  }
+
+  // ============================================================
+  // CONFETTI ENGINE
+  // ============================================================
+  const Confetti = (() => {
+    const canvas = $('confetti');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let raf = null;
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    resize();
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+      canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(window.devicePixelRatio || 1, 1);
+    });
+
+    const COLORS = ['#FF2E93', '#1F6BFF', '#FFE94A', '#9CE53A', '#FF6FAE', '#43B0FF'];
+    const SHAPES = ['rect', 'circle', 'strip', 'tri'];
+
+    function spawn(x, y, count) {
+      const cap = state.lowEnd ? 0.4 : 1;
+      const n = Math.round(count * state.confettiDensity * cap);
+      for (let i = 0; i < n; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 4 + Math.random() * 8;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 4,
+          gravity: 0.18 + Math.random() * 0.1,
+          drag: 0.985,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.4,
+          size: 6 + Math.random() * 10,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+          life: 1,
+          fade: 0.004 + Math.random() * 0.004
+        });
+      }
+      if (!raf) loop();
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.vx *= p.drag;
+        p.vy = p.vy * p.drag + p.gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vrot;
+        p.life -= p.fade;
+
+        if (p.life <= 0 || p.y > window.innerHeight + 40) return;
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life));
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        const s = p.size;
+        if (p.shape === 'rect') {
+          ctx.fillRect(-s/2, -s/4, s, s/2);
+        } else if (p.shape === 'circle') {
+          ctx.beginPath();
+          ctx.arc(0, 0, s/2.5, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (p.shape === 'strip') {
+          ctx.fillRect(-s/2, -s/8, s, s/4);
+        } else if (p.shape === 'tri') {
+          ctx.beginPath();
+          ctx.moveTo(0, -s/2);
+          ctx.lineTo(s/2, s/2);
+          ctx.lineTo(-s/2, s/2);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+      particles = particles.filter(p => p.life > 0 && p.y < window.innerHeight + 40);
+      if (particles.length) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = null;
+      }
+    }
+
+    return { burst: spawn };
+  })();
+  window.Confetti = Confetti;
+
+  // ============================================================
+  // SPARKLES — cursor trail
+  // ============================================================
+  (() => {
+    const canvas = $('sparkles');
+    const ctx = canvas.getContext('2d');
+    let parts = [];
+    let raf = null;
+    let lastX = 0, lastY = 0, lastT = 0;
+
+    function resize() {
+      canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+      canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const COLORS = ['#FF2E93', '#1F6BFF', '#FFE94A', '#9CE53A', '#FFFFFF'];
+
+    document.addEventListener('mousemove', (e) => {
+      if (state.lowEnd) return;
+      const now = performance.now();
+      const dt = now - lastT;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      const speed = Math.hypot(dx, dy) / Math.max(1, dt);
+      lastT = now; lastX = e.clientX; lastY = e.clientY;
+      const count = Math.min(3, Math.floor(speed * 2));
+      for (let i = 0; i < count; i++) {
+        parts.push({
+          x: e.clientX + (Math.random()-0.5)*10,
+          y: e.clientY + (Math.random()-0.5)*10,
+          vx: (Math.random()-0.5) * 1.5,
+          vy: (Math.random()-0.5) * 1.5 - 0.5,
+          life: 1,
+          size: 2 + Math.random() * 3,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random()-0.5) * 0.2
+        });
+      }
+      if (!raf) loop();
+    });
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      parts.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.04;
+        p.life -= 0.025;
+        p.rot += p.vrot;
+        if (p.life <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = p.life;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        // four-pointed sparkle
+        ctx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          const a = (i / 4) * Math.PI * 2;
+          ctx.lineTo(Math.cos(a) * p.size, Math.sin(a) * p.size);
+          ctx.lineTo(Math.cos(a + Math.PI/4) * p.size * 0.3, Math.sin(a + Math.PI/4) * p.size * 0.3);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      });
+      parts = parts.filter(p => p.life > 0);
+      if (parts.length) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = null;
+      }
+    }
+  })();
+
+  // ============================================================
+  // EXPOSE for tweaks
+  // ============================================================
+  window.__card = {
+    setRecipientName(name) {
+      state.recipientName = name;
+      $('letterName').textContent = name;
+      $('cardName').textContent = name;
+    },
+    setFromName(name) {
+      state.fromName = name;
+      $('fromName').textContent = name;
+    },
+    setCandleCount(n) {
+      state.candleCount = n;
+      if (state.stage === 3) buildCandles();
+    },
+    setConfettiDensity(d) {
+      state.confettiDensity = d;
+    },
+    burstConfetti(x, y, n) {
+      Confetti.burst(x || window.innerWidth/2, y || window.innerHeight/2, n || 80);
+    },
+    state
+  };
+
+  // Apply initial tweak values
+  window.__card.setRecipientName(state.recipientName);
+  window.__card.setFromName(state.fromName);
+
+})();
+
+</script>
+
+</body>
+</html>
